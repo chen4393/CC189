@@ -6,18 +6,23 @@ class Node {
 }
 
 public class CheckBalanced {
-	static int getHeight (Node node) {
+	static int getHeight(Node node) {
 		if (node == null)
 			return -1;
+		int leftHeight = getHeight(node.left);
+		if (leftHeight == Integer.MIN_VALUE)
+			return Integer.MIN_VALUE;
+		int rightHeight = getHeight(node.right);
+		if (rightHeight == Integer.MIN_VALUE)
+			return Integer.MIN_VALUE;
+		int heightDiff = Math.abs(leftHeight - rightHeight);
+		if (heightDiff > 1)
+			return Integer.MIN_VALUE;
 		return 1 + Math.max(getHeight(node.left), getHeight(node.right));
 	}
 
 	static boolean isBalanced (Node node) {
-		if (node == null)
-			return true;
-		if (Math.abs(getHeight(node.left) - getHeight(node.right)) > 1)
-			return false;
-		return (isBalanced(node.left) && isBalanced(node.right));
+		return (getHeight(node) != Integer.MIN_VALUE);
 	}
 
 	static void test() {
